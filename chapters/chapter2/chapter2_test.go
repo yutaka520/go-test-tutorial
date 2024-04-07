@@ -1,8 +1,11 @@
 package chapter2
 
 import (
-	"fmt"
 	"testing"
+
+	"github.com/dip-dev/go-test-tutorial/chapters/chapter2/communication"
+	"github.com/stretchr/testify/assert"
+	"go.uber.org/mock/gomock"
 )
 
 func TestExecWithMock(t *testing.T) {
@@ -16,18 +19,17 @@ func TestExecWithMock(t *testing.T) {
 
 	for tt, tc := range success {
 		t.Run(tt, func(t *testing.T) {
-			fmt.Println(tc.want) // このfmtは一時的なエラー対応のため、テスト実装後に削除してください。
+			ctrl := gomock.NewController(t)
+			defer ctrl.Finish()
 
-			// FIXME: mock contoroller生成
+			mock := communication.NewMockInterfaceCommunication(ctrl)
 
-			// FIXME: mock設定
+			mock.EXPECT().Greeting().Return(tc.want)
 
-			// FIXME: mockを構造体(Chapter2)に設定
+			chapter2 := New(mock)
+			greeting := chapter2.exec()
 
-			// FIXME: exec関数を呼び出し
-
-			// FIXME: 結果を検証
-
+			assert.Equal(t, tc.want, greeting)
 		})
 	}
 }
