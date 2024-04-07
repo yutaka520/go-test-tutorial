@@ -11,7 +11,8 @@ func TestAddition(t *testing.T) {
 		numB int
 		want int
 	}{
-		// FIXME: テストケースを追加
+		"case1": {numA: 0, numB: 10, want: 10},
+		"case2": {numA: 100, numB: 200, want: 300},
 	}
 	// エラー系のテストパターン
 	fail := map[string]struct {
@@ -19,7 +20,10 @@ func TestAddition(t *testing.T) {
 		numB       int
 		wantErrStr string
 	}{
-		// FIXME: テストケースを追加
+		"case1": {numA: -1, numB: 10, wantErrStr: "numAは0以上の数値を指定してください。"},
+		"case2": {numA: 101, numB: 10, wantErrStr: "numAは100以下の数値を指定してください。"},
+		"case3": {numA: 0, numB: 0, wantErrStr: "numBは10以上の数値を指定してください。"},
+		"case4": {numA: 0, numB: 201, wantErrStr: "numBは200以下の数値を指定してください。"},
 	}
 
 	for tt, tc := range success {
